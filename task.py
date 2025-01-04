@@ -8,4 +8,3 @@ class Task:
     def complete(self):
         self.completed = True
 
-    
