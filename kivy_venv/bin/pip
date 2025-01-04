@@ -1,4 +1,4 @@
-#!/Users/trentonregis/Documents/GitHub/ProductivityApp/kivy_venv/bin/python3
+#!/Users/trentonregis/Documents/GitHub/ProductivityApp/kivy_venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
