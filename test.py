@@ -12,6 +12,10 @@ def test1():
     task1.rename_task("")
 
     task2 = Task("Fake task", "This is not a due date", None)
+    if(task2.set_due("02/30/2025") is False):
+        print("Invalid due")
+    else:
+        print("Valid due")
     task2.print_task()
 
 def main():
