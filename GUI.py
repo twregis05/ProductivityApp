@@ -5,28 +5,42 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
+from kivy.uix.popup import Popup
 
 class MyGridLayout(GridLayout):
     def __init__(self, **kwargs):
         # calling grid layout constructor
         super(MyGridLayout, self).__init__(**kwargs)
 
-        # setting columns
-        self.cols = 2
+        self.cols = 1
 
-        # adding widgets
-        self.add_widget(Label(text="First Name: "))
+        self.inside = GridLayout()
+
+        # setting columns for text fields and labels
+        self.inside.cols = 2
+
+        # adding first name label
+        self.inside.add_widget(Label(text="First Name: "))
         
         # adding input box
         self.first_name = TextInput(multiline=False)
-        self.add_widget(self.first_name)
+        self.inside.add_widget(self.first_name)
 
-        self.add_widget(Label(text="Last Name: "))
+        self.inside.add_widget(Label(text="Last Name: "))
         
         # adding input box
         self.last_name = TextInput(multiline=False)
-        self.add_widget(self.last_name)
+        self.inside.add_widget(self.last_name)
 
+        self.inside.add_widget(Label(text="Email: "))
+        self.email = TextInput(multiline=False)
+        self.inside.add_widget(self.email)
+
+        # Adding whole field to top row of GUI
+        self.add_widget(self.inside)
+
+        
+        
         # Adding a submit button
         self.submit = Button(text="Submit", font_size=32)
         self.submit.bind(on_press=self.submit_data)
