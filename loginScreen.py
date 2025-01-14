@@ -39,7 +39,7 @@ class LoginScreen(Screen):
         print(self.username.text)
         
         # Switch to Homepage screen after submission
-        self.manager.current = "leaderboard"  # Switch to homepage screen
+        self.manager.current = "homepage"  # Switch to homepage screen
 
 class MyApp(App):
     def build(self):
@@ -51,8 +51,9 @@ class MyApp(App):
         sm.add_widget(Homepage(name="homepage"))
         sm.add_widget(Leaderboard(name="leaderboard"))
         sm.add_widget(Calendar(name="calendar"))
-        sm.add_widget(Account(name="account"))
         sm.add_widget(Suggestion(name="suggestion"))
+        sm.add_widget(Account(name="account"))
+
         
         return sm
 
