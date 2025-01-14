@@ -3,59 +3,53 @@ from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.popup import Popup
 
-class MyGridLayout(GridLayout):
+class LoginScreen(Screen):
     def __init__(self, **kwargs):
-        # calling grid layout constructor
-        super(MyGridLayout, self).__init__(**kwargs)
+        super(LoginScreen, self).__init__(**kwargs)
 
-        self.cols = 1
+        layout = FloatLayout()
 
-        self.inside = GridLayout()
+        user_label = Label(text="Username")
+        layout.add_widget(user_label)
+        self.username = TextInput(multiline=False)
+        layout.add_widget(self.username)
 
-        # setting columns for text fields and labels
-        self.inside.cols = 2
+        pass_label = Label(text="Password")
+        layout.add_widget(pass_label)
+        self.password = TextInput(multiline=False)
+        layout.add_widget(self.password)
 
-        # adding first name label
-        self.inside.add_widget(Label(text="First Name: "))
-        
-        # adding input box
-        self.first_name = TextInput(multiline=False)
-        self.inside.add_widget(self.first_name)
+        submit_button = Button(text="Submit")
+        submit_button.bind(on_release=self.submit_info)
+        layout.add_widget(submit_button)
 
-        self.inside.add_widget(Label(text="Last Name: "))
-        
-        # adding input box
-        self.last_name = TextInput(multiline=False)
-        self.inside.add_widget(self.last_name)
+        self.add_widget(layout)
 
-        self.inside.add_widget(Label(text="Email: "))
-        self.email = TextInput(multiline=False)
-        self.inside.add_widget(self.email)
+    def submit_info(self, instance):
+        print(self.username.text)
 
-        # Adding whole field to top row of GUI
-        self.add_widget(self.inside)
+class MainAppScreen(Screen):
+    pass
 
-        
-        
-        # Adding a submit button
-        self.submit = Button(text="Submit", font_size=32)
-        self.submit.bind(on_press=self.submit_data)
-        self.add_widget(self.submit)
+class AppScreenManager(ScreenManager):
+    def __init__(self, **kwargs):
+        super(AppScreenManager, self).__init__(**kwargs)
 
-    def submit_data(self, instance):
-        first_name = self.first_name.text
-        last_name = self.last_name.text
-        print(f"Hello {first_name} {last_name}!")
 
 
 
 class MyApp(App):
     def build(self):
-        return MyGridLayout()
+        manager = ScreenManager()
+        manager.add_widget(LoginScreen(name="login"))
+        manager.add_widget(MainAppScreen(name="main"))
+        return manager
 
 if __name__ == "__main__":
     MyApp().run()
