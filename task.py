@@ -10,7 +10,7 @@ class Task:
 
     # Renames the task. Returns true if param is different to current
     # title, otherwise returns false
-    def rename_task(self, title: str):
+    def rename_task(self, title: str) -> bool:
         if self.title == title:
             return False
         self.title = title
@@ -23,7 +23,7 @@ class Task:
     # Sets task due date to parameter. 
     # If parameter is invalid (not in format MM/DD/YYYY) return false,
     # returns true if valid (MM/DD/YYYY or None)
-    def set_due(self, due: str):
+    def set_due(self, due: str) -> bool:
         try:
             if due == None: 
                 self.due_date = due
