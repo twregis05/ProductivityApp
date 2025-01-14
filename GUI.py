@@ -1,9 +1,4 @@
 import kivy
-<<<<<<< Updated upstream
-=======
-import sqlite3
-from loginScreen import LoginScreen
->>>>>>> Stashed changes
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
