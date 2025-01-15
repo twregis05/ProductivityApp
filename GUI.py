@@ -16,34 +16,7 @@ from leaderboardpage import Leaderboard
 from calendarpage import Calendar
 from suggestionpage import Suggestion
 from accountpage import Account
-
-class LoginScreen(Screen):
-    def __init__(self, **kwargs):
-        super(LoginScreen, self).__init__(**kwargs)
-
-        layout = FloatLayout()
-
-        user_label = Label(text="Username", size_hint=(0.2, 0.1), pos_hint={"x": 0.1, "y": 0.7})
-        layout.add_widget(user_label)
-        self.username = TextInput(multiline=False, size_hint=(0.6, 0.1), pos_hint={"x": 0.3, "y": 0.7})
-        layout.add_widget(self.username)
-
-        pass_label = Label(text="Password", size_hint=(0.2, 0.1), pos_hint={"x": 0.1, "y": 0.5})
-        layout.add_widget(pass_label)
-        self.password = TextInput(multiline=False, password=True, size_hint=(0.6, 0.1), pos_hint={"x": 0.3, "y": 0.5})
-        layout.add_widget(self.password)
-
-        submit_button = Button(text="Sumbit", size_hint=(0.4, 0.1), pos_hint={"x": 0.3, "y": 0.3})
-        submit_button.bind(on_release=self.submit_info)
-        layout.add_widget(submit_button)
-
-        self.add_widget(layout)
-
-    def submit_info(self, instance):
-        print(self.username.text)
-        
-        # Switch to Homepage screen after submission
-        self.manager.current = "main"  # Switch to homepage screen
+from loginscreen import LoginScreen
 
 class MainAppScreen(Screen):
     def __init__(self, **kwargs):
