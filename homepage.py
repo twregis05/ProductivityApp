@@ -17,22 +17,21 @@ class Homepage(Screen):
         floatLayout = FloatLayout()
 
         #To-Do-List Section
-        listTitle= Label(text="To-Do-List", size_hint=(0.2, 0.1))
+        listTitle= Label(text="To-Do-List", size_hint=(0.2, 0.1), pos_hint={"x": 0.1, "y": 0.9})
         task1 = Label(text="Task #1: ", size_hint=(0.2, 0.1), pos_hint={"x": 0.1, "y": 0.8})
         task2 = Label(text="Task #2: ", size_hint=(0.2, 0.1), pos_hint={"x": 0.1, "y": 0.7})
         task3 = Label(text="Task #3: ", size_hint=(0.2, 0.1), pos_hint={"x": 0.1, "y": 0.6})
-        moreButton = Button(text="More", size_hint=(0.4, 0.1))
+        moreButton = Button(text="More", size_hint=(0.4, 0.1), pos_hint={"x": 0.3, "y": 0.5})
 
-        doListGrid = GridLayout(cols=1, rows=5, size_hint=(None, None), size=(80,140))
+        doListGrid = GridLayout(cols=1, rows=5, size_hint=(0.35, 0.45), pos_hint={"x": 0.01, "y": 0.54})
         doListGrid.add_widget(listTitle)
         doListGrid.add_widget(task1)
         doListGrid.add_widget(task2)
         doListGrid.add_widget(task3)
         doListGrid.add_widget(moreButton)
-        doListGrid.pos = (40, 350)
 
         #Summary Section:
-        summaryTable = GridLayout(cols=1, rows=3, size_hint=(None, None), size=(400,420))
+        summaryTable = GridLayout(cols=1, rows=3, size_hint=(0.6, 0.75), pos_hint={"x": 0.39, "y": 0.23})
         summaryTitle = Label(text="Summary", size_hint=(0.2, 0.1))
         tasksGrid = GridLayout(cols=3,rows=11)
         tasksGrid.add_widget(Label(text="Tasks"))
@@ -45,35 +44,32 @@ class Homepage(Screen):
             tasksGrid.add_widget(Label(text="none"))
             tasksGrid.add_widget(Label(text="UNCOMPLETED"))
 
-        moreTasks = Button(text="...", size_hint=(None, None), width=400, height=20)
+        moreTasks = Button(text="...", size_hint=(0.2, 0.05))
 
         summaryTable.add_widget(summaryTitle)
         summaryTable.add_widget(tasksGrid)
         summaryTable.add_widget(moreTasks)
-        summaryTable.pos = (370, 75)
 
         #Timer Section
-        timerButton = Button(text="TIMER", size_hint=(0.4,0.1))
+        timerButton = Button(text="TIMER", size_hint=(0.3,0.1), pos_hint={"x": 0.01, "y": 0.38})
         timerButton.pos = (20, 240)
         #Add pop-up code below:
 
         #Streak Section
-        streakLayout = BoxLayout(orientation="horizontal", size_hint=(None, None), size=(200, 40))
-        streakLayout.add_widget(Label(text="Streak: "))
-        streakLayout.pos = (0,180)
+        streakLayout = BoxLayout(orientation="horizontal", size_hint=(0.4,0.1), pos_hint={"x": 0.01, "y": 0.25})
+        streakLayout.add_widget(Label(text="Streak: ", size_hint=(None, 1), width=100))
 
         #Progress Bar Sectiom
-        progressLayout = BoxLayout(orientation="horizontal", size_hint=(None, None), size=(730, 40))
-        progress = ProgressBar(size_hint=(None, None), size=(750, 40), pos_hint={"x": 0.1, "y": 0.1})
-        progress.value = 50  # Set progress value to 50% as an example
-        progressLayout.add_widget(progress)
-        progressLayout.pos = (25, 15)
+       #progressLayout = BoxLayout(orientation="horizontal", pos_hint={"x": 0.2,"y": 0})
+        progress = ProgressBar(size_hint=(0.9, 0.1), size=(600, 20), pos_hint={"x": 0.06, "y": 0.1})
+        progress.value = 50  
+      # progressLayout.add_widget(progress)
 
         floatLayout.add_widget(doListGrid)
         floatLayout.add_widget(timerButton)
         floatLayout.add_widget(summaryTable)
         floatLayout.add_widget(streakLayout)
-        floatLayout.add_widget(progressLayout)  
+        floatLayout.add_widget(progress)  
 
 
 
