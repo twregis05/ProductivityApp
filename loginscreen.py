@@ -10,24 +10,29 @@ class LoginScreen(Screen):
     def __init__(self, **kwargs):
         super(LoginScreen, self).__init__(**kwargs)
 
+        # Entire screen layout will be a FloatLayout
         layout = FloatLayout()
 
+        # Label representing username
         user_label = Label(
             text="Email or Username", 
             size_hint=(0.1, 0.1), 
             pos_hint={"x": 0.23, "y": 0.8})
         layout.add_widget(user_label)
+        # Textbox representing username
         self.username = TextInput(
             multiline=False, 
             size_hint=(0.6, 0.1), 
             pos_hint={"x": 0.2, "y": 0.7})
         layout.add_widget(self.username)
 
+        # Label representing password
         pass_label = Label(
             text="Password", 
             size_hint=(0.1, 0.1), 
             pos_hint={"x": 0.195, "y": 0.6})
         layout.add_widget(pass_label)
+        # Textbox representing password
         self.password = TextInput(
             multiline=False, 
             password=True, 
@@ -35,11 +40,12 @@ class LoginScreen(Screen):
             pos_hint={"x": 0.2, "y": 0.5})
         layout.add_widget(self.password)
 
+        # Button for login
         login_button = Button(
             text="Login", 
             size_hint=(0.4, 0.1), 
             pos_hint={"x": 0.3, "y": 0.3})
-        
+        # Button executes submit_info() function on release
         login_button.bind(on_release=self.submit_info)
         layout.add_widget(login_button)
 
