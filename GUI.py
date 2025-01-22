@@ -66,7 +66,7 @@ class MainAppScreen(Screen):
     def on_homepage_click(self, instance):
         self.sm.current = "homepage"
 
-    def on_suggestion_click(self, instance):
+    def on_suggestion_click(self, instance): 
         self.sm.current = "suggestion"
 
     def on_profile_click(self, instance):

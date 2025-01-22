@@ -155,8 +155,7 @@ class SignUpScreen(Screen):
         layout.add_widget(user_label)
 
         self.username = TextInput(
-            multiline=False, 
-            password=True, 
+            multiline=False,  
             size_hint=(0.6, 0.05), 
             pos_hint={"x": 0.2, "y": 0.485})
         layout.add_widget(self.username)
