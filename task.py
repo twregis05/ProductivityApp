@@ -7,6 +7,7 @@ class Task:
         if not self.set_due(due_date): self.due_date = None
         self.completed = False
         self.description = description
+        self.created_on = datetime.now().strftime("%m/%d/%Y")
 
     # Renames the task. Returns true if param is different to current
     # title, otherwise returns false
@@ -44,5 +45,6 @@ class Task:
         print("Due date: " + ("None" if self.due_date is None else self.due_date))
         print("Description: " + ("None" if self.description is None else self.description))
         print("Completed? " + ("Yes" if self.completed else "No"))
+        print(f"Date created: {self.created_on}")
 
         

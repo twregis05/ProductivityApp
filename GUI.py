@@ -1,5 +1,5 @@
 import kivy
-import sqlite3
+import mysql.connector
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
