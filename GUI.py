@@ -16,7 +16,7 @@ from leaderboardpage import Leaderboard
 from calendarpage import Calendar
 from suggestionpage import Suggestion
 from accountpage import Account
-from loginscreen import LoginScreen
+from loginscreen import LoginScreen, SignUpScreen
 
 class MainAppScreen(Screen):
     def __init__(self, **kwargs):
@@ -66,7 +66,7 @@ class MainAppScreen(Screen):
     def on_homepage_click(self, instance):
         self.sm.current = "homepage"
 
-    def on_suggestion_click(self, instance):\
+    def on_suggestion_click(self, instance): 
         self.sm.current = "suggestion"
 
     def on_profile_click(self, instance):
@@ -77,6 +77,7 @@ class MyApp(App):
         manager = ScreenManager()
         manager.add_widget(LoginScreen(name="login"))
         manager.add_widget(MainAppScreen(name="main"))
+        manager.add_widget(SignUpScreen(name="signup"))
         return manager
 
 if __name__ == "__main__":
