@@ -8,6 +8,8 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.clock import Clock
+from functools import partial  #partial for passing arguments
+
 
 
 
@@ -36,27 +38,26 @@ class Calendar(Screen):
 
         self.add_widget(self.pageGrid)
 
-    def updateCalendar(self):
+    def updateCalendar(self, chosenMonth, chosenYear):
         self.calendarGrid = GridLayout(cols=1, rows=3, pos_hint={"x": 0, "y": 0.65})
         self.calendarGrid.add_widget(Label(text="Calendar", pos_hint={"x":0.5, "y":0.5}))
-        
-        now = datetime.datetime.now()
-        self.currMonth = now.month
-        self.currYear = now.year
 
-        self.monthLayout = FloatLayout()
         self.monthBox = BoxLayout(size_hint=(0.5, 1))
-        self.monthLabel = Button(text=f"{calendar.month_name[self.currMonth]} {self.currYear}", size_hint=(0.12, 0.01), pos_hint={"x": 0.4, "y": 0.5})
-        self.leftMonth = Button(text="<-", size_hint=(0.01, 0.01), pos_hint={"x": 0.3, "y": 0.5})
-        self.rightMonth = Button(text="->", size_hint=(0.01, 0.01), pos_hint={"x": 0.6, "y": 0.5})
+        self.monthLabel = Button(text=f"{calendar.month_name[chosenMonth]} {chosenYear}")
         
+        self.leftMonth = Button(text="Left")
+        self.rightMonth = Button(text="Right")
+        
+        # Bind the buttons to update the month
+        self.leftMonth.bind(on_press=lambda instance: self.prev_month(chosenMonth, chosenYear, instance))
+        self.rightMonth.bind(on_press=lambda instance: self.next_month(chosenMonth, chosenYear, instance))
         
         self.monthBox.add_widget(self.leftMonth)
         self.monthBox.add_widget(self.monthLabel)
         self.monthBox.add_widget(self.rightMonth)
         self.calendarGrid.add_widget(self.monthBox)
 
-        self.dayGrid = GridLayout(rows=6, cols=7, spacing=50)
+        self.dayGrid = GridLayout(rows=7, cols=7, spacing=20)
         self.dayGrid.add_widget(Label(text="SUN", pos_hint={"x": 0.5, "y": 0.5}))
         self.dayGrid.add_widget(Label(text="MON", pos_hint={"x": 0.5, "y": 0.5}))
         self.dayGrid.add_widget(Label(text="TUE", pos_hint={"x": 0.5, "y": 0.5}))
@@ -66,7 +67,7 @@ class Calendar(Screen):
         self.dayGrid.add_widget(Label(text="SAT", pos_hint={"x": 0.5, "y": 0.5}))
 
         # Gets days of the month
-        month_days = calendar.monthcalendar(self.currYear, self.currMonth)
+        month_days = calendar.monthcalendar(chosenYear, chosenMonth)
 
         # Add the days of the month to the grid
         for week in month_days:
@@ -77,11 +78,8 @@ class Calendar(Screen):
                 self.taskFloat = FloatLayout()
                 self.dayLayout.add_widget(self.taskFloat)
 
-                if day == 0:
-                    # Add empty labels for the days outside of the current month
-                    self.dayFloat.add_widget(Label(text=""))
-                else:
-                    self.dayFloat.add_widget(Label(text=str(day), pos_hint={"x": 1, "y": 0.5}))
+                self.dayFloat.add_widget(Label(text=str(day), pos_hint={"x": 0.5, "y": 0.5}))
+
                 self.dayGrid.add_widget(self.dayLayout)
         
         self.calendarGrid.add_widget(self.dayGrid)
@@ -92,6 +90,29 @@ class Calendar(Screen):
          # Change the content to List view
         self.calendarLayout.clear_widgets()  # Clear the current calendar view
 
+        # Update the page grid with the new content
+        self.pageGrid.clear_widgets()
+        self.pageGrid.add_widget(self.switchLayout)
+        list_label = Label(text="This is the List Page", size_hint=(1, 1), pos_hint={"x": 0, "y": 0.5})
+        self.pageGrid.add_widget(list_label)
+        self.addTasks()
+
+
+    def switch_to_calendar(self, instance):
+        self.pageGrid.clear_widgets()
+        self.pageGrid.add_widget(self.switchLayout)
+        self.calendarLayout.clear_widgets()
+
+        # Initialize the current month and year
+        defaultMonth = datetime.datetime.now().month
+        defaultYear = datetime.datetime.now().year
+
+        self.updateCalendar(defaultMonth, defaultYear)
+
+        self.pageGrid.add_widget(self.calendarLayout)
+        self.addTasks()
+    
+    def addTasks(self):
         # Update the task layout (for adding tasks and goals)
         self.tasksLayout.clear_widgets()
          # Task Layout for adding tasks
@@ -108,19 +129,31 @@ class Calendar(Screen):
         self.tasksLayout.add_widget(self.addTaskLayout)
         self.tasksLayout.add_widget(self.addGoalLayout)
 
-        # Update the page grid with the new content
-        self.pageGrid.clear_widgets()
-        self.pageGrid.add_widget(self.switchLayout)
-        list_label = Label(text="This is the List Page", size_hint=(1, 1), pos_hint={"x": 0, "y": 0.5})
-        self.pageGrid.add_widget(list_label)
         self.pageGrid.add_widget(self.tasksLayout)
 
-
-    def switch_to_calendar(self, instance):
-        self.pageGrid.clear_widgets()
-        self.pageGrid.add_widget(self.switchLayout)
-        self.calendarLayout.clear_widgets()
-        self.updateCalendar()
-
-        self.pageGrid.add_widget(self.calendarLayout)
-        self.pageGrid.add_widget(self.tasksLayout)
+    def prev_month(self, chosenMonth, chosenYear, instance):
+        print("Previous Month")
+         # Update the current month
+        if chosenMonth == 1:
+            chosenMonth = 12
+            chosenYear -= 1
+        else:
+            chosenMonth -= 1
+        
+        self.dayGrid.clear_widgets()
+        # Update the calendar view
+        self.updateCalendar(chosenMonth, chosenYear)
+        
+    def next_month(self, chosenMonth, chosenYear, instance):
+        print("Next Month")
+        """Switches to the next month."""
+        # Update the current month
+        if chosenMonth == 12:
+            chosenMonth = 1
+            chosenYear += 1
+        else:
+            chosenMonth += 1
+        
+        self.dayGrid.clear_widgets()
+        # Update the calendar view
+        self.updateCalendar(chosenMonth, chosenYear)
