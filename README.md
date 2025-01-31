@@ -1,4 +1,4 @@
-# ProductivityApp
+# ProductivityApp (In progress)
 
 A simple, collaborative productivity app for task management and organization.
 
