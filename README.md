@@ -8,10 +8,6 @@ A simple, collaborative productivity app for task management and organization.
 
 ✅ Task creation, editing, and deletion
 
-✅ Task categorization and prioritization
-
-✅ Community-based task sharing (optional)
-
 ✅ Intuitive UI with smooth navigation
 
 
@@ -25,45 +21,6 @@ Database: MySQL
 
 Authentication: Custom authentication system
 
-🚀 Installation & Setup
-# 1. Clone the Repository
-
-git clone https://github.com/yourusername/productivity-app.git
-
-cd productivity-app
-
-# 2. Set Up a Virtual Environment (Optional but Recommended)
-python -m venv venv
-source venv/bin/activate  (Mac/Linux)
-venv\Scripts\activate  (# Windows)
-# 3. Install Dependencies
-
-pip install -r requirements.txt
-
-4. Set Up MySQL Database
-
-Create a MySQL database:
-
-sql
-
-Copy
-
-Edit
-
-CREATE DATABASE productivity_app;
-
-Update database credentials in config.py:
-
-DB_HOST = "your_host"
-
-DB_USER = "your_user"
-
-DB_PASSWORD = "your_password"
-
-DB_NAME = "productivity_app"
-
-# 5. Run the Application
-python main.py
 # 📖 Usage
 Register or log in to your account.
 
