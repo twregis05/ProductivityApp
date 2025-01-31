@@ -39,8 +39,6 @@ git commit -m "Added new feature"
 # 4. Push & Create a Pull Request
 git push origin feature-branch
 
-# 📝 License
-This project is licensed under the MIT License.
 
 # 📬 Contact
 For questions or collaboration, reach out at twregis05@gmail.com or open an issue on GitHub.
