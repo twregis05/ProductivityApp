@@ -16,6 +16,16 @@ class Homepage(Screen):
         super(Homepage, self).__init__(**kwargs)
         floatLayout = FloatLayout()
 
+        with floatLayout.canvas.before:
+            Color(0.055, 0.416, 0.921, 1)  # #0e6aeb in RGB format
+            self.rect = Rectangle(size=self.size, pos=self.pos)
+
+        def update_rect(instance, value):
+            self.rect.size = instance.size
+            self.rect.pos = instance.pos
+
+        floatLayout.bind(size=update_rect, pos=update_rect)
+
         #To-Do-List Section
         listTitle= Label(text="To-Do-List", size_hint=(0.2, 0.1), pos_hint={"x": 0.1, "y": 0.9})
         task1 = Label(text="Task #1: ", size_hint=(0.2, 0.1), pos_hint={"x": 0.1, "y": 0.8})
@@ -42,7 +52,7 @@ class Homepage(Screen):
             task = "Task #" + str(i) + ":"
             tasksGrid.add_widget(Label(text=task))
             tasksGrid.add_widget(Label(text="none"))
-            tasksGrid.add_widget(Label(text="UNCOMPLETED"))
+            tasksGrid.add_widget(Label(text="INCOMPLETE"))
 
         moreTasks = Button(text="...", size_hint=(0.2, 0.05))
 
