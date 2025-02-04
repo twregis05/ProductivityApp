@@ -1,10 +1,14 @@
 import kivy
 from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.button import Button
+from database import Database
+from kivy.uix.popup import Popup
+from exceptions import *
 
 class LoginScreen(Screen):
     def __init__(self, **kwargs):
@@ -68,16 +72,43 @@ class LoginScreen(Screen):
 
     def submit_info(self, instance):
         # Switch to Homepage screen after submission
-        self.manager.current = "main"  # Switch to homepage screen
+        try:
+            Database.authenticate(self.username.text, self.password.text)
+            self.manager.current = "main"  # Switch to homepage screen
+        except Exception as e:
+            self.error_popup = Popup(
+            title="Error",
+            auto_dismiss=False,
+            size_hint=(0.5, 0.5)
+            )
+        
+            error_grid = GridLayout(cols=1)
+
+            error_grid.add_widget(Label(
+                text=str(e),
+                font_size=35
+            ))
+            
+            close_button = Button(
+            text="Okay",
+            size_hint=(0.4, 0.4),
+            pos_hint={"x": 0.3, "y": 0.15})
+        
+            close_button.bind(on_release=self.error_popup.dismiss)
+
+            error_grid.add_widget(close_button)
+
+            self.error_popup.add_widget(error_grid)
+
+            self.error_popup.open()
+            
+        
 
     def sign_up(self, instance):
         self.manager.current = "signup" 
 
-
-
 class ClickableText(ButtonBehavior, Label):
     pass
-       
 
 class SignUpScreen(Screen):
     def __init__(self, **kwargs):
@@ -86,7 +117,7 @@ class SignUpScreen(Screen):
         layout = FloatLayout()
 
         sign_up_label = Label(
-            text="Get Started with ProDucktive",
+            text="Get Started with WaddleWise",
             font_name="Roboto", 
             size_hint=(0.3, 0.3), 
             pos_hint={"x": 0.35, "y": 0.8}, 
@@ -191,8 +222,74 @@ class SignUpScreen(Screen):
             size_hint=(0.4, 0.1), 
             pos_hint={"x": 0.3, "y": 0.15})
         
-        submit_button.bind(on_release=self.login)
+        submit_button.bind(on_release=self.register)
         layout.add_widget(submit_button)
 
     def login(self, instance):
         self.manager.current = "login"
+
+    def register(self, instance):
+        try:
+            Database.create_user(
+                self.first_name.text, 
+                self.last_name.text, 
+                self.email.text, 
+                self.username.text,
+                self.password.text, 
+                self.confirm_password.text)
+            print("Account successfully created!")
+            self.success_popup = Popup(
+                title="Account created",
+                auto_dismiss=False,
+                size_hint=(0.5, 0.5)
+            )
+            success_grid = GridLayout(cols=1)
+            
+            success_grid.add_widget(Label(
+                text="Account successfully created!",
+                font_size=35
+            ))
+
+            close_button = Button(
+            text="Okay",
+            size_hint=(0.4, 0.4),
+            pos_hint={"x": 0.3, "y": 0.15})
+        
+            close_button.bind(
+                on_release=self.login, 
+                on_press=self.success_popup.dismiss
+            )
+
+            success_grid.add_widget(close_button)
+
+            self.success_popup.add_widget(success_grid)
+
+            self.success_popup.open()
+
+        except Exception as e:
+            self.error_popup = Popup(
+            title="Error",
+            auto_dismiss=False,
+            size_hint=(0.5, 0.5)
+            )
+        
+            error_grid = GridLayout(cols=1)
+
+            error_grid.add_widget(Label(
+                text=str(e),
+                font_size=35
+            ))
+            
+            close_button = Button(
+            text="Okay",
+            size_hint=(0.4, 0.4),
+            pos_hint={"x": 0.3, "y": 0.15})
+        
+            close_button.bind(on_release=self.error_popup.dismiss)
+
+            error_grid.add_widget(close_button)
+
+            self.error_popup.add_widget(error_grid)
+
+            self.error_popup.open()
+            
