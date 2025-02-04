@@ -23,8 +23,8 @@ class Calendar(Screen):
         self.tasksLayout = FloatLayout()
        
         #Switch Buttons
-        self.calendarButton = Button(text="Calendar", size_hint=(0.15,0.15), pos_hint={"x": 0.68, "y": 0.75})
-        self.listButton = Button(text="List", size_hint=(0.15,0.15), pos_hint={"x": 0.83, "y": 0.75})
+        self.calendarButton = Button(text="Calendar", size_hint=(0.15,0.15), pos_hint={"x": 0.68, "y": 0.8})
+        self.listButton = Button(text="List", size_hint=(0.15,0.15), pos_hint={"x": 0.83, "y": 0.8})
 
         # Bind button actions to screen transitions
         self.calendarButton.bind(on_press=self.switch_to_calendar)
@@ -39,7 +39,7 @@ class Calendar(Screen):
         self.add_widget(self.pageGrid)
 
     def updateCalendar(self, chosenMonth, chosenYear):
-        self.calendarGrid = GridLayout(cols=1, rows=3, pos_hint={"x": 0, "y": 0.65})
+        self.calendarGrid = GridLayout(cols=1, rows=3, pos_hint={"x": 0.1, "y": 0.8}, size_hint=(0.8,1))
         self.calendarGrid.add_widget(Label(text="Calendar", pos_hint={"x":0.5, "y":0.5}))
 
         self.monthBox = BoxLayout(size_hint=(0.5, 1))
@@ -70,18 +70,28 @@ class Calendar(Screen):
         month_days = calendar.monthcalendar(chosenYear, chosenMonth)
 
         # Add the days of the month to the grid
+        daysList = []
         for week in month_days:
             for day in week:
-                self.dayLayout = GridLayout(rows=2, cols=1)
-                self.dayFloat = FloatLayout()
-                self.dayLayout.add_widget(self.dayFloat)
-                self.taskFloat = FloatLayout()
-                self.dayLayout.add_widget(self.taskFloat)
+                daysList.append(day)
 
-                self.dayFloat.add_widget(Label(text=str(day), pos_hint={"x": 0.5, "y": 0.5}))
+       
 
-                self.dayGrid.add_widget(self.dayLayout)
+        for day in range(len(daysList)):
+            if daysList[day] != 0:
+                daysList[day] -= 1
         
+        
+        for day in range(len(daysList)):
+            self.dayLayout = BoxLayout(orientation="vertical")
+            if daysList[day] != 0:
+                self.dayLayout.add_widget(Label(text=str(daysList[day]), pos_hint={"x": 0.5, "y": 1}))
+            else:
+                self.dayLayout.add_widget(Label(text=""))
+            self.dayGrid.add_widget(self.dayLayout)
+             
+
+      
         self.calendarGrid.add_widget(self.dayGrid)
         self.calendarLayout.add_widget(self.calendarGrid)
 
@@ -116,12 +126,12 @@ class Calendar(Screen):
         # Update the task layout (for adding tasks and goals)
         self.tasksLayout.clear_widgets()
          # Task Layout for adding tasks
-        self.addTaskLayout = BoxLayout(orientation="horizontal", size_hint=(0.3, 0.25), pos_hint={"x": 0, "y": 0.4})
+        self.addTaskLayout = BoxLayout(orientation="horizontal", size_hint=(0.3, 0.25), pos_hint={"x": 0, "y": 0.2})
         self.addTaskLayout.add_widget(Label(text="Add Task"))
         self.addTaskLayout.add_widget(Button(text="+", size_hint=(0.2, 0.5), pos_hint={"y": 0.3}))
 
         # Goal Layout for adding goals
-        self.addGoalLayout = BoxLayout(orientation="horizontal", size_hint=(0.3, 0.25), pos_hint={"x": 0, "y": 0.1})
+        self.addGoalLayout = BoxLayout(orientation="horizontal", size_hint=(0.3, 0.25), pos_hint={"x": 0, "y": 0.05})
         self.addGoalLayout.add_widget(Label(text="Add Goal"))
         self.addGoalLayout.add_widget(Button(text="+", size_hint=(0.2, 0.5), pos_hint={"y": 0.3}))
 
