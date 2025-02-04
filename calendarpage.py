@@ -57,7 +57,7 @@ class Calendar(Screen):
         self.monthBox.add_widget(self.rightMonth)
         self.calendarGrid.add_widget(self.monthBox)
 
-        self.dayGrid = GridLayout(rows=7, cols=7, spacing=20)
+        self.dayGrid = GridLayout(rows=7, cols=7, spacing=60)
         self.dayGrid.add_widget(Label(text="SUN", pos_hint={"x": 0.5, "y": 0.5}))
         self.dayGrid.add_widget(Label(text="MON", pos_hint={"x": 0.5, "y": 0.5}))
         self.dayGrid.add_widget(Label(text="TUE", pos_hint={"x": 0.5, "y": 0.5}))
@@ -83,12 +83,15 @@ class Calendar(Screen):
         
         
         for day in range(len(daysList)):
-            self.dayLayout = BoxLayout(orientation="vertical")
+
+            self.dateLayout = FloatLayout()
+            self.taskDateLayout = GridLayout(rows=3, cols=1)
             if daysList[day] != 0:
-                self.dayLayout.add_widget(Label(text=str(daysList[day]), pos_hint={"x": 0.5, "y": 1}))
+                self.dateLayout.add_widget(Label(text=str(daysList[day]), pos_hint={"x": 0.4, "y": 1}))
             else:
-                self.dayLayout.add_widget(Label(text=""))
-            self.dayGrid.add_widget(self.dayLayout)
+                self.dateLayout.add_widget(Label(text="", pos_hint={"x": 0.1, "y": 0.1}))
+               
+            self.dayGrid.add_widget(self.dateLayout)
              
 
       
