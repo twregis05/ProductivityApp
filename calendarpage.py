@@ -9,9 +9,7 @@ from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.clock import Clock
 from functools import partial  #partial for passing arguments
-
-
-
+from kivy.uix.popup import Popup
 
 class Calendar(Screen):
     def __init__(self, **kwargs):
@@ -131,18 +129,53 @@ class Calendar(Screen):
          # Task Layout for adding tasks
         self.addTaskLayout = BoxLayout(orientation="horizontal", size_hint=(0.3, 0.25), pos_hint={"x": 0, "y": 0.2})
         self.addTaskLayout.add_widget(Label(text="Add Task"))
-        self.addTaskLayout.add_widget(Button(text="+", size_hint=(0.2, 0.5), pos_hint={"y": 0.3}))
+        
+        self.addTaskButton = Button(text="+", size_hint=(0.2, 0.5), pos_hint={"y": 0.3})
+        self.addTaskLayout.add_widget(self.addTaskButton)
+        self.addTaskButton.bind(on_press=self.createTask)
+
 
         # Goal Layout for adding goals
         self.addGoalLayout = BoxLayout(orientation="horizontal", size_hint=(0.3, 0.25), pos_hint={"x": 0, "y": 0.05})
         self.addGoalLayout.add_widget(Label(text="Add Goal"))
-        self.addGoalLayout.add_widget(Button(text="+", size_hint=(0.2, 0.5), pos_hint={"y": 0.3}))
+        self.addGoalButton = Button(text="+", size_hint=(0.2, 0.5), pos_hint={"y": 0.3})
+        self.addGoalLayout.add_widget(self.addGoalButton)
+        self.addGoalButton.bind(on_press=self.createGoal)
+
 
         # Add the task and goal layouts
         self.tasksLayout.add_widget(self.addTaskLayout)
         self.tasksLayout.add_widget(self.addGoalLayout)
 
         self.pageGrid.add_widget(self.tasksLayout)
+    
+
+    def createTask(self, instance):
+        # Create a close button for the popup
+        close_button = Button(text="Close")
+
+        # Create a layout for the popup content
+        popup1_layout = BoxLayout(orientation='vertical')
+        popup1_layout.add_widget(close_button)
+        self.taskPopup = Popup(title="Tasks", content=popup1_layout, size_hint=(0.6, 0.4))  # Set size of the popup window
+        close_button.bind(on_press=self.taskPopup.dismiss)
+
+        # Open the popup
+        self.taskPopup.open()
+
+    def createGoal(self, instance):
+        # Create a close button for the popup
+        close_button = Button(text="Close")
+
+        # Create a layout for the popup content
+        popup_layout = BoxLayout(orientation='vertical')
+        popup_layout.add_widget(close_button)
+        self.goalPopup = Popup(title="Goals", content=popup_layout, size_hint=(0.6, 0.4))  # Set size of the popup window
+        close_button.bind(on_press=self.goalPopup.dismiss)
+
+        # Open the popup
+        self.goalPopup.open()
+
 
     def prev_month(self, chosenMonth, chosenYear, instance):
         print("Previous Month")
